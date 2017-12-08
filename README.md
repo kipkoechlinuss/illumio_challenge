@@ -4,4 +4,5 @@ In the function parse_range i handle the cases where am given port range or ip r
 I had a few challenges doing this problem. First, i could not write unit test because i ran into issues when installing them on my new computer and i had limited time to finish this challenge.
 I am however confident i would have done better with more time and less pressure. 
 If possible I would like to talk with one of the engineers to evaluate my skills because i believe i have the skills which i could not really demonstrate during this coding challenge. 
+If i had more time i would have tried to optimise where the file is really big by using parallization. In the for loop when reading the file i would have used OpenM parallel so that the file reading can be done by several mini processors.
 Otherwise thanks.
