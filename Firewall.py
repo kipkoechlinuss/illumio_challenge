@@ -5,7 +5,7 @@ class Firewall:
     def __init__(self, args):
         self.args = "/Users/kipkoech/Desktop/illumio/Workbook1"
 
-        #open the csv file and check if the packet properties matches the rules
+        #open the csv file and check if the packet properties matches the rules. This is the main function doing the checking
     def openandcheck(self,dir,protocol,port,ip):
         file=open(args)
         reader = csv.reader(file)
