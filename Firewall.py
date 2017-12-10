@@ -1,42 +1,43 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import re
-class Firewall:
+import csv
+class Firewall(object):
     def __init__(self, args):
-        self.args = "/Users/kipkoech/Desktop/illumio/Workbook1"
+        self.args = "/Users/kipkoech/Desktop/illumio/Workbook1.csv"
 
-        #open the csv file and check if the packet properties matches the rules. This is the main function doing the checking
-    def openandcheck(self,dir,protocol,port,ip):
-        file=open(args)
-        reader = csv.reader(file)
-        for line in reader:
-            lines = line[0],line[1],line[2],line[3]
-        return lines[0] == dir and lines[1] == protocol and parse_range(lines[2],port)and parse_range(lines[3],ip) 
+        #open the csv file and check if the packet properties matches the rules
+    def accept(self,direction,protocol,port,ip):
+        with open(self.args, 'rU') as my_file:
+            reader= csv.reader(my_file)
+            data = list(reader)
+        for i in range(len(data)-1):
+            if((data[i][0] == direction and data[i][1] == protocol and self.checkrange(data[i][2],port)and self.checkrange(self.parse_range(self.match_ips(data[i][3])),ip))):
+                return True
+            return False              
         #this method deals with the scenario with port range or ip range
     def parse_range(self,rng):
-        parts = rng.split('-')
-        #this list is the parsed results put in array form
-        list_ = []
-        if 1 > len(parts) > 2:
-            raise ValueError("Bad range: '%s'" % (rng,))
-        parts = [int(i) for i in parts]
-        start = parts[0]
-        end = start if len(parts) == 1 else parts[1]
-        if start > end:
-            end, start = start, end
-        list_[0] = start
-        list_[1] = end
-        return list_
+        splitted = []
+        if isinstance(rng, int):
+            return rng
+        splitted = rng.split('-')
+        return [i for i in splitted]
+
+
+
         #check if the port or ip matches. Ip and Port had to be handled in different function because they could be in range format
     def checkrange(self,rules_payload, payload):
-        result = parse_range(rules_payload)
-        if(len(result)) == 1:
-            if(result[0] == payload):
-                return True
-            else:
-                return False
-        elif(len(result == 2)):
-            if(result[0] <= payload or result[1] >= payload):
-                return True
-            else:
-                return False
+        result = self.parse_range(rules_payload)
+        if(rules_payload == payload):
+            return True
+        elif(len(result) == 2):
+            return (result[0] <= payload and payload <= result[1])
+        else:
+            return False
+    def match_ips(self,IP):
+        splitted_IP = []
+        splitted_IP = IP.split('.')
+        return [i for i in splitted_IP]
+
+
+        
