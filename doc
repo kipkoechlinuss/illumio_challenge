@@ -1,0 +1,82 @@
+           EFFICIENT  ALARM CLOCK
+			   ==========================
+
+---- Data Structures and Functions – ----
+struct sleepLinkedList{
+  
+}
+
+Going to add a struct priorityQueue;
+ struct priorityQueue {
+   int item;
+   int priority;
+}
+priorityQueue will keep track of sleeping threads and the order in 
+which they should be scheduled.
+
+*/This is the Thread control block struct that keeps track of threads state./*
+struct threadStatus {
+int thread_current state
+
+}
+
+The current implementation of timer_sleep is inefficient because it calls thread_yield() in a 
+loop until enough time has passed i.e until at least x timer ticks. We will reimplement timer_sleep() 
+so that it executes efficiently without repeatedly checking - busy waiting.
+
+In the current implementation, calling thread_yield()
+does not prevent the thread from being immediately scheduled again, even if 
+it’s still sleeping. Doing this will waste CPU cycles that could be spent on non-sleeping threads or in 
+the energy-efficient idle thread. So, avoiding scheduling sleeping threads will prevent this problem. 
+We will designate a TCB (thread control block) to keep track of threads’ status. 
+A sleeping tread should not be scheduled until it’s a wake.
+
+
+---- Algorithms ----
+First we will check for valid ticks argument (i.e. ticks > 0), then
+calculate the tick value for the thread **ticks = 5 × TIMER FREQ**
+3) Add the current thread to the sleep list. Note that it is added in
+sorted order such that the front thread element ends its sleep the soonest.
+4) Block the thread
+
+In the timer interrupt handler  Get the beginning front list thread.
+2) If the thread's ticks value <= the global ticks, the thread is removed
+from the sleep list and unblocked.
+3) Repeat steps 1-2 until the sleep list is empty or the thread's tick
+value > the global ticks.
+4) Test to see if the current thread is still highest priority since other
+threads may have been unblocked.
+
+>> A3: What steps are taken to minimize the amount of time spent in
+>> the timer interrupt handler?
+
+Note that by keeping the sleep list in sorted order, this minimizes the
+time in the interrupt handler. Thus, the handler does not have to iterate
+through the entire sleep list at every interrupt.
+
+---- Synchronization ----
+There are a few possible race conditions which may occur during thread checking.
+Dead lock may occurr when thread priority is being updated. If multiple threads need
+their priority of waking up scheduled, it can cause race conditions. One way we
+are thinking of preventing this is locking the priority updates when one priority is 
+already being updated. This approach however, might cause issues if wait time is too long.
+
+
+Interrupts are turned off for steps 2-4 in timer_sleep. Since ready and sleep
+lists are read / modified in the interrupt handler, steps 3-4 need to be
+turned off. Step 2 is turned off as well since if the current thread tick
+value is calculated, but then the thread is pre-empted or interrupted, the
+global ticks could eventually be > the tick value calculated and the
+thread would never had slept!
+
+Step 1 does not allow race conditions since it is a local variable and if the
+ticks value is invalid, then the thread should not sleep anyways.
+
+---- Rationale ----
+
+
+Before consulting with the TA's, I considered keeping the sleep list
+unsorted. While this would make adding sleeping threads more efficient,
+more time would be spent in the interrupt handler. This could cause a
+problem when there are a large number of sleeping threads. Thus, I felt
+the current design is superior based on that evaluation.
