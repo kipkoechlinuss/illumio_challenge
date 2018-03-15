@@ -1,16 +1,14 @@
 
 *** ---- Data Structures and Functions –---- ***
 Add a fucntion that will parse the arguments and put it in a list.
-
-`` void parse_arguments(char *input)
+```void parse_arguments(char *input)
  {
   char args [1024];
   char *tokens = strtok_r(input, " ");
   while(tokens != null){
   	args[i] = tokens;
 	}
-    }
- ``
+    } ```
 
 
 *** ---- Algorithms ---- ***
@@ -27,4 +25,4 @@ one page size (4 KB). We have to put arguments into the stack.
 
 
 *** ---- Rationale ---- ***
-We chose to use strtok_r because its thread safe. If 
+We chose to use strtok_r instead of strtok because its thread safe
