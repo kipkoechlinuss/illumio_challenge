@@ -1,4 +1,4 @@
-* * Data Structures and Functions  * *
+* *Data Structures and Functions* *
 Add a fucntion that will parse the arguments and put it in a list.
 ```void parse_arguments(char *input)
  {
