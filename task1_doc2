@@ -1,5 +1,5 @@
 
-*** ---- Data Structures and Functions –---- ***
+** ---- Data Structures and Functions –---- **
 Add a fucntion that will parse the arguments and put it in a list.
 ```void parse_arguments(char *input)
  {
@@ -20,10 +20,10 @@ onto the stack. This way, we will get each element of argv[] to be in the right 
 To avoid overflowing the stack page we limited the size of the total arguments to be less than
 one page size (4 KB). We have to put arguments into the stack.
 
-*** ---- Synchronization ---- ***
+** ---- Synchronization ---- **
 
 
 
 
-*** ---- Rationale ---- ***
+** ---- Rationale ---- **
 We chose to use strtok_r instead of strtok because its thread safe
