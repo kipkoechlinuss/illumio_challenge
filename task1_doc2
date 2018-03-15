@@ -2,7 +2,7 @@
 *** ---- Data Structures and Functions –---- ***
 Add a fucntion that will parse the arguments and put it in a list.
 
- ``` void parse_arguments(char *input)
+`` void parse_arguments(char *input)
  {
   char args [1024];
   char *tokens = strtok_r(input, " ");
@@ -10,7 +10,7 @@ Add a fucntion that will parse the arguments and put it in a list.
   	args[i] = tokens;
 	}
     }
- ```
+ ``
 
 
 *** ---- Algorithms ---- ***
